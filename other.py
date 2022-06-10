@@ -8,7 +8,6 @@ regarding asciimatics
 
   import asciiclasses
 """
-# helo
 import CLI_MOD
 screen = CLI_MOD.screen
 
