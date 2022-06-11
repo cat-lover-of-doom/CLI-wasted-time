@@ -9,7 +9,7 @@ regarding asciimatics
   import asciiclasses
 """
 import CLI_MOD
-screen = CLI_MOD.screen
+SCREEN = CLI_MOD.screen
 
 
 def element_selctor(cardinality: int, list_in: list, current: int) -> int:
@@ -36,11 +36,11 @@ def element_selctor(cardinality: int, list_in: list, current: int) -> int:
 
 
 def hello():
-    screen.print_at('hello', int(screen.width/2), int(screen.height/2))
+    SCREEN.print_at('hello', int(SCREEN.width/2), int(SCREEN.height/2))
 
 
 def hello2():
-    screen.print_at('hello2', int(screen.width/2), int(screen.height/2))
+    SCREEN.print_at('hello2', int(SCREEN.width/2), int(SCREEN.height/2))
 
 
 def demo() -> None:
@@ -58,12 +58,12 @@ def demo() -> None:
         None
     """
 
-    i, j = 0, screen.height/2
-    option1 = CLI_MOD.asciiclasses.Button(screen, i, j, 'option1')
-    option2 = CLI_MOD.asciiclasses.Button(screen, i, j+1, 'option2')
+    i, j = 0, SCREEN.height/2
+    option1 = CLI_MOD.asciiclasses.Button(SCREEN, i, j, 'option1')
+    option2 = CLI_MOD.asciiclasses.Button(SCREEN, i, j+1, 'option2')
     option1.onpress = hello
     option2.onpress = hello2
-    cursor = CLI_MOD.asciiclasses.Cursor(screen, 0, 0)
+    cursor = CLI_MOD.asciiclasses.Cursor(SCREEN, 0, 0)
     ui_elements = [option1, option2]
     current_index = 0
     elem = ui_elements[current_index]
@@ -72,7 +72,7 @@ def demo() -> None:
 
     while True:
 
-        event = screen.get_event()
+        event = SCREEN.get_event()
 
         if isinstance(event, CLI_MOD.const.KeyboardEvent):
 
@@ -111,8 +111,8 @@ def demo() -> None:
         cursor.show()
         option1.show()
         option2.show()
-        screen.refresh()
-        screen.buffer.clear(7, 0, 0)
+        SCREEN.refresh()
+        SCREEN.buffer.clear(7, 0, 0)
 
 
 if __name__ == '__main__':
