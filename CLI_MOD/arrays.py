@@ -81,19 +81,35 @@ class _buffer:
             self.set(x + index, y, (char, fg, bg, attr))
 
 
-buff = _buffer()
-os.system('cls')
-i = 0
-j = 0
-CAR_X = 1
-CAR_Y = 1
-while True:
+class ball:
+    def __init__(self, height, width, buffer, pos=None, card=None) -> None:
+        self.buffer = buffer
+        self.field = (width, height)
+        self.pos = pos if pos is not None else [0, 0]
+        self.card = card if card is not None else [1, 1]
 
-    buff.set(i, j, '0')
+    def main(self):
+        self.buffer.set(self.pos[0], self.pos[1], '0')
+        self.pos[0] += self.card[0]
+        self.pos[1] += self.card[1]
+        self.check()
+
+    def check(self):
+        temp = []
+        for card, boundry, position in zip(self.card, self.field, self.pos):
+            if position >= boundry - abs(card) or position <= 0:
+                card = -card
+            temp.append(card)
+        self.card = temp
+
+
+buff = _buffer()
+b = ball(buff.height, buff.width, buff)
+b1 = ball(buff.height, buff.width, buff, pos=[100, 10], card=[1, -1])
+os.system('cls')
+while True:
+    b.main()
+    b1.main()
     buff.flush()
     buff.clear()
-    i += CAR_X
-    j += CAR_Y
-    CAR_X = -CAR_X if i == 0 or i == buff.width - 2 else CAR_X
-    CAR_Y = -CAR_Y if j == 0 or j == buff.height - 2 else CAR_Y
     time.sleep(0.01)
