@@ -27,8 +27,8 @@ class Button:
         None
     """
 
-    def __init__(self, screen, x_pos: int, y_pos: int, text: str = '') -> None:
-        self.screen = screen
+    def __init__(self, buffer, x_pos: int, y_pos: int, text: str = '') -> None:
+        self.buffer = buffer
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.length = len(text)
@@ -37,7 +37,7 @@ class Button:
         self.onpress = None
         self.ispressed = False
 
-    def show(self, color_in: int = 7, bg_in: int = 0) -> None:
+    def show(self, color_in: int = 15, bg_in: int = 0, attr_in: int = 1) -> None:
         """
         Renders the button into the screen.
 
@@ -50,20 +50,15 @@ class Button:
             None
         """
         if self.inverse:
-            self.screen.print_at(
-                self.text,
-                int(self.x_pos),
-                int(self.y_pos),
-                colour=bg_in,
-                bg=color_in
-            )
+            attr_in = 7
         else:
-            self.screen.print_at(
-                self.text,
+            self.buffer.set_string(
                 int(self.x_pos),
                 int(self.y_pos),
-                colour=color_in,
-                bg=bg_in
+                self.text,
+                fg=color_in,
+                bg=bg_in,
+                attr=attr_in
             )
 
         if self.ispressed and self.onpress is not None:
@@ -124,10 +119,10 @@ class Cursor:
         None
     """
 
-    def __init__(self, screen, x_pos: int, y_pos: int) -> None:
+    def __init__(self, buffer, x_pos: int, y_pos: int) -> None:
         self.x_pos = int(x_pos)
         self.y_pos = int(y_pos)
-        self.screen = screen
+        self.buffer = buffer
 
     def move(self, x_pos: int, y_pos: int) -> None:
         """
@@ -177,7 +172,7 @@ class Cursor:
             None
         """
 
-        self.screen.print_at('', self.x_pos, self.y_pos)
+        self.buffer.set_string(self.x_pos, self.y_pos, '')
 
 
 class Frame:

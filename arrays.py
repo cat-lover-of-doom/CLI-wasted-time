@@ -1,4 +1,3 @@
-import time
 import ctypes
 from ctypes import c_long, c_ulong
 import os
@@ -78,3 +77,14 @@ class Buffer:
             pass
         for index,  char in enumerate(string):
             self.set(x + index, y, (char, fg, bg, attr))
+
+    def main_loop(self, func):
+        def wrapper(*args, **kwargs):
+            os.system('cls')
+            try:
+                while True:
+                    func(*args, **kwargs)
+            finally:
+                os.system('cls')
+                print('\033[0m')
+        return wrapper
