@@ -1,19 +1,44 @@
+"""
+A CLI engine with ctypes that moves the cursor arround and sutff.
+
+This module is meant to be imported and used to handle the output to
+the terminal
+
+  Typical usage example:
+
+  import arrays
+
+  BUFFER = arrays.Buffer()
+  BUFFER.set_string(5,5, 'hello')
+  BUUFER.flush()
+"""
 import ctypes
 from ctypes import c_long, c_ulong
 import os
 import sys
-# make metaclass and abstract calss to serve as main loop, instead of a function, a list of all frames created automaticaly to switch between frame instances
+# make metaclass and abstract calss to serve as main loop, instead of a function,
+#  a list of all frames created automaticaly to switch between frame instances
 # https://i.stack.imgur.com/KTSQa.png for colors
 # ==== GLOBAL VARIABLES ======================
 
-# torry is mid lol
-
 
 class Buffer:
+    """
+    The buffer class is meant to be used to interact with the terminal.
+
+
+    Args:
+        None
+    Returns:
+        None
+    Raises:
+        None
+    """
+
     def __init__(self) -> None:
 
-        self.ATTRIBG = {'normal': 1, 'underline': 4, 'reverse': 7, }
-        self.gHandle = ctypes.windll.kernel32.GetStdHandle(c_long(-11))
+        self.attribute_list = {'normal': 1, 'underline': 4, 'reverse': 7, }
+        self.g_handle = ctypes.windll.kernel32.GetStdHandle(c_long(-11))
         size = os.get_terminal_size()
 
         self.height = size.lines
@@ -45,7 +70,7 @@ class Buffer:
         """Move cursor to position indicated by x and y."""
         value = x + (y << 16)
         ctypes.windll.kernel32.SetConsoleCursorPosition(
-            self.gHandle, c_ulong(value))
+            self.g_handle, c_ulong(value))
 
     def set_title(self, title):
         os.system(f'title {title}')
@@ -55,6 +80,11 @@ class Buffer:
         return return_string
 
     def flush(self):
+        """
+         get the deltas aka the parts where buffer and doublebuffer dont match
+         and print them
+         sync at the end
+        """
         for x, y in self.deltas():
             new_cell = self.double_buffer[y][x]
 
