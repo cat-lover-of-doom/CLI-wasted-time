@@ -1,5 +1,8 @@
+import pstats
+import cProfile
 import time
 import os
+
 import arrays
 
 
@@ -38,16 +41,28 @@ class ball:
         self.text = (tup[0], tup[2], tup[1], tup[3])
 
 
-if __name__ == '__main__':
+def main():
+
     buff = arrays.Buffer()
     b1 = ball(buff.height, buff.width, buff, pos=[
         10, 10], card=[1, -1], text='amogos')
     os.system('cls')
+    i = 0
     try:
-        while True:
+        while i < 1000:
             b1.main()
             buff.flush()
+            # time.sleep(0.05)
             buff.clear()
-            time.sleep(0.03)
+            i += 1
     finally:
         print('\033[0m')
+
+
+if __name__ == '__main__':
+    with cProfile.Profile() as pr:
+        main()
+        stats = pstats.Stats(pr)
+        stats.sort_stats(pstats.SortKey.TIME)
+        stats.print_stats()
+        time.sleep(10)
