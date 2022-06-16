@@ -3,7 +3,7 @@ import cProfile
 import time
 import os
 
-import arrays
+import screen
 
 
 class ball:
@@ -42,8 +42,7 @@ class ball:
 
 
 def main():
-
-    buff = arrays.Buffer()
+    buff = screen.Buffer()
     b1 = ball(buff.height, buff.width, buff, pos=[
         10, 10], card=[1, -1], text='amogos')
     os.system('cls')
@@ -52,7 +51,8 @@ def main():
         while i < 1000:
             b1.main()
             buff.flush()
-            # time.sleep(0.05)
+            screen.set_title('normal')
+            # time.sleep(0.03)
             buff.clear()
             i += 1
     finally:
@@ -65,4 +65,3 @@ if __name__ == '__main__':
         stats = pstats.Stats(pr)
         stats.sort_stats(pstats.SortKey.TIME)
         stats.print_stats()
-        time.sleep(10)
